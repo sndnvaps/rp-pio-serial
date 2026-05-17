@@ -23,6 +23,15 @@ use rp235x_hal::pio::{
 #[cfg(all(feature = "rp2350", target_arch = "arm", target_os = "none"))]
 use pio::pio_asm;
 
+#[cfg(all(feature = "rp2040", feature = "rp2350"))]
+compile_error!("features `rp2040` and `rp2350` cannot be enabled at the same time");
+
+#[cfg(not(any(feature = "rp2040", feature = "rp2350")))]
+compile_error!("either feature `rp2040` or `rp2350` must be enabled");
+
+#[cfg(all(feature = "rp2040", not(target_arch = "arm")))]
+compile_error!("`rp2040` only supports ARM targets");
+
 const DEFAULT_TX_BUF_SIZE: usize = 512;
 const DEFAULT_RX_BUF_SIZE: usize = 512;
 
