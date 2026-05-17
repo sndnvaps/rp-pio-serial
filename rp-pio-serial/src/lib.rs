@@ -5,11 +5,23 @@ use core::hint::spin_loop;
 
 use cortex_m::asm;
 use heapless::spsc::Queue;
+#[cfg(feature = "rp2040")]
 use pio_proc::pio_asm;
+
+#[cfg(feature = "rp2040")]
 use rp2040_hal::pio::{
     PIOBuilder, PIOExt, PinDir, Running, Rx, ShiftDirection, StateMachine, StateMachineIndex, Tx,
     UninitStateMachine, PIO,
 };
+
+#[cfg(feature = "rp2350")]
+use rp235x_hal::pio::{
+    PIOBuilder, PIOExt, PinDir, Running, Rx, ShiftDirection, StateMachine, StateMachineIndex, Tx,
+    UninitStateMachine, PIO,
+};
+
+#[cfg(all(feature = "rp2350", target_arch = "arm", target_os = "none"))]
+use pio::pio_asm;
 
 const DEFAULT_TX_BUF_SIZE: usize = 512;
 const DEFAULT_RX_BUF_SIZE: usize = 512;
@@ -168,7 +180,7 @@ impl<
         // TX program (8N1)
         // 8 cycles / bit
         // =========================================================
-        
+
         //this version is ok for tx
         let tx_program = pio_asm!(
             ".side_set 1 opt"
@@ -178,7 +190,7 @@ impl<
             "out pins, 1"
             "jmp x-- bitloop [6]"
         );
-        
+
         let installed_tx = pio
             .install(&tx_program.program)
             .map_err(|_| InitError::InstallTxProgram)?;
@@ -202,16 +214,16 @@ impl<
         let rx_program = pio_asm!(
             "idle_wait:"
             "wait 1 pin 0"      // 要求空闲为高，避免假 start
-        
+
             "start_wait:"
             "wait 0 pin 0"      // start: 下降沿
-        
+
             "set x, 7 [10]"     // 对齐到第1个数据位中心附近（按你现有位周期调参点）
-        
+
             "bitloop:"
             "in pins, 1"
             "jmp x-- bitloop [6]"
-        
+
             "push"
             "jmp idle_wait"
         );

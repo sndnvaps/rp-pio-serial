@@ -1,6 +1,6 @@
 [package]
 edition = "2021"
-name = "rp2040-pio-console"
+name = "rp2350-pio-example"
 version = "0.5.0"
 license = "MIT OR Apache-2.0"
 rust-version = "1.77"
@@ -10,17 +10,15 @@ cortex-m = { version = "0.7.2" }
 cortex-m-rt = "0.7"
 embedded-hal = {version = "1.0.0"}
 panic-halt = "1.0.0"
-rp2040-hal = { version = "0.10", features = [
+rp235x-hal = { version = "0.4.0", features = [
     "critical-section-impl",
     "rt",
     "defmt",
 ] }
-rp2040-boot2 = "0.3.0"
 
 
-critical-section = { version = "1.2.0"}
+rp-pio-serial = {  version = "0.6.0", default-features = false, features = [ "rp2350"] }
 
-rp-pio-serial = {  version = "0.6.0" }
 # cargo build/run
 [profile.dev]
 codegen-units = 1

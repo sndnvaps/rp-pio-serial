@@ -1,8 +1,8 @@
 ## rp-pio-serial
 
-PIO-based software serial for RP2040 using arbitrary GPIO pins
+PIO-based software serial for RP2040 & RP2350 using arbitrary GPIO pins
 
-## support rp2040-hal
+## support rp2040-hal & rp235x-hal
 
 
 ### Test for
@@ -13,21 +13,24 @@ PIO-based software serial for RP2040 using arbitrary GPIO pins
 |YD-rp2040| rp2040  | Y  |
 |ProMicro | rp2040  | Y  |
 |Waveshare-Rp2040-zero| rp2040| X|
-
-### Prepare for rp235x platform
+|Pico2    | rp2350  | Y  |
 
 ### How to install 
 
 ```bash
-cargo install rp-pio-serial
+cargo add rp-pio-serial
 ```
 
 ### How to use it in you project
 
 ```toml
 # add to cargo.toml
-rp-pio-serial = { version = "0.5.0" }
+# rp2040 is default-feature
+rp-pio-serial = { version = "0.6.0" }
+# rp2350
+# rp-pio-serial = {  version = "0.6.0", default-features = false, features = [ "rp2350"] }
 ```
+
 
 ```rust
 //import it in main.rs
@@ -85,5 +88,7 @@ use rp_pio_serial::{
 ## For example 
 
 [rp2040-pio-example](rp2040-pio-example)
+
+[rp2350-pio-example](rp2350-pio-example)
 
 

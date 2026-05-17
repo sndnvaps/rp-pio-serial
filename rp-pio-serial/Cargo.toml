@@ -1,13 +1,14 @@
 [package]
 name = "rp-pio-serial"
 authors = ["JimesYang <admin@sndnvaps.com>"]
-version = "0.5.0"
+version = "0.6.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
-description = "PIO-based software serial for RP2040 using arbitrary GPIO pins"
+description = "PIO-based software serial for RP2040 & RP2350 using arbitrary GPIO pins"
 repository = "https://github.com/sndnvaps/rp-pio-serial"
 keywords = [
     "raspberry-pi",
+    "rp2350",
     "rp2040",
     "embedded-hal",
 ]
@@ -18,7 +19,15 @@ categories = [
 ]
 
 [package.metadata.docs.rs]
+features = [
+    "rp2040",
+]
 targets = ["thumbv6m-none-eabi"]
+
+[features]
+default = ["rp2040"]
+rp2040 = ["dep:rp2040-hal"]
+rp2350 = ["dep:rp235x-hal"]
 
 [lib]
 name = "rp_pio_serial"
@@ -26,9 +35,19 @@ path = "src/lib.rs"
 
 
 [dependencies]
-rp2040-hal = { version = "0.10", features = ["rt"] }
+rp2040-hal = { version = "0.10.2", features = ["rt"], optional = true }
+rp235x-hal = { version = "0.4.0", features = ["rt"], optional = true }
 cortex-m = "0.7.7"
 embedded-hal = "1.0"
 heapless = "0.8"
-pio = "0.2"
-pio-proc = "0.2"
+
+[target.'thumbv6m-none-eabi'.dependencies]
+pio = {version = "0.2.1"}
+pio-proc = "0.2.2"
+
+[target.'thumbv8m.main-none-eabihf'.dependencies]
+pio = "0.3.0"
+pio-core = {version = "0.3.0"}
+pio-proc = "0.3.0"
+
+
