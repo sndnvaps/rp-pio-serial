@@ -179,20 +179,6 @@ impl<
             "jmp x-- bitloop [6]"
         );
         
-        /* 
-        let tx_program = pio_asm!(
-            "byte_loop:"
-            "pull"              // OSR <= next byte (u32 low 8 bits)
-            "set pins, 0 [7]"  // start bit = 0 for 8 cycles
-            "set x, 7"         // 8 data bits
-            "bitloop:"
-            "out pins, 1"      // output 1 bit (LSB first if ShiftDirection::Right)
-            "jmp x-- bitloop [6]" // make each bit ~8 cycles
-            "set pins, 1 [7]"  // stop bit = 1 for 8 cycles (idle high)
-            "jmp byte_loop"
-        );
-        */
-
         let installed_tx = pio
             .install(&tx_program.program)
             .map_err(|_| InitError::InstallTxProgram)?;
@@ -213,27 +199,6 @@ impl<
         // RX program (8N1)
         // 8 cycles / bit
         // =========================================================
-        //此版本，勉强能收到部分内容
-        /* 
-        let rx_program = pio_asm!(
-            "start_wait:"
-            "wait 0 pin 0"      // wait start (pin low)
-            "set x, 7 [10]"     // align to first data bit center (keep your original alignment)
-            "bitloop:"
-            "in pins, 1"
-            "jmp x-- bitloop [6]" // 8 data bits, keep original per-bit pacing
-        
-                // 到这里：8个data bit采样完成
-                // 再延迟约 1bit（≈8 cycles）到 stop 中心附近
-            "nop [7]" //增加这个后，得到的结果为 
-            "jmp pin got_stop"
-            "jmp start_wait"
-        
-            "got_stop:"
-            "push"
-            "jmp start_wait"
-        );
-        */
         let rx_program = pio_asm!(
             "idle_wait:"
             "wait 1 pin 0"      // 要求空闲为高，避免假 start

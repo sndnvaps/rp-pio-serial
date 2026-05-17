@@ -1,11 +1,29 @@
 [package]
 name = "rp-pio-serial"
-authors = ["JimesYang<admin@sndnvaps.com>"]
+authors = ["JimesYang <admin@sndnvaps.com>"]
 version = "0.5.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "PIO-based software serial for RP2040 using arbitrary GPIO pins"
 repository = "https://github.com/sndnvaps/rp-pio-serial"
+keywords = [
+    "raspberry-pi",
+    "rp2040",
+    "embedded-hal",
+]
+categories = [
+    "embedded",
+    "hardware-support",
+    "no-std",
+]
+
+[package.metadata.docs.rs]
+targets = ["thumbv6m-none-eabi"]
+
+[lib]
+name = "rp_pio_serial"
+path = "src/lib.rs"
+
 
 [dependencies]
 rp2040-hal = { version = "0.10", features = ["rt"] }

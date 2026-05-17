@@ -1,8 +1,13 @@
 #![no_std]
 #![no_main]
 
-use core::usize;
+/*
+rp2040-pio-example
+gpio9  as rx_pin connect to uart_tx
+gpio10 as tx_pin connect to uart_rx
+*/
 
+use core::usize;
 use hal::entry;
 use panic_halt as _;
 use rp2040_hal as hal;
