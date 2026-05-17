@@ -1,0 +1,16 @@
+[package]
+name = "rp-pio-serial"
+authors = ["JimesYang<admin@sndnvaps.com>"]
+version = "0.5.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "PIO-based software serial for RP2040 using arbitrary GPIO pins"
+repository = "https://github.com/sndnvaps/rp-pio-serial"
+
+[dependencies]
+rp2040-hal = { version = "0.10", features = ["rt"] }
+cortex-m = "0.7.7"
+embedded-hal = "1.0"
+heapless = "0.8"
+pio = "0.2"
+pio-proc = "0.2"

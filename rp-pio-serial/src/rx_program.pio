@@ -1,0 +1,16 @@
+start_wait:
+wait 0 pin 0
+nop [3]
+jmp pin 0 start_wait
+
+set x, 7
+data_bits:
+in pins, 1
+jmp x-- data_bits [7]
+
+nop [3]
+jmp pin 0, got_stop
+jmp start_wait
+
+got_stop:
+push
