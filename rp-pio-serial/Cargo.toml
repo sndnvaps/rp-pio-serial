@@ -1,10 +1,11 @@
 [package]
 name = "rp-pio-serial"
 authors = ["JimesYang <admin@sndnvaps.com>"]
-version = "0.6.0"
+version = "0.6.1"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "PIO-based software serial for RP2040 & RP2350 using arbitrary GPIO pins"
+documentation = "https://docs.rs/rp-pio-serial"
 repository = "https://github.com/sndnvaps/rp-pio-serial"
 keywords = [
     "raspberry-pi",

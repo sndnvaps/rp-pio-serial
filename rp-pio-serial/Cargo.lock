@@ -979,7 +979,7 @@ dependencies = [
 
 [[package]]
 name = "rp-pio-serial"
-version = "0.6.0"
+version = "0.6.1"
 dependencies = [
  "cortex-m",
  "embedded-hal 1.0.0",
